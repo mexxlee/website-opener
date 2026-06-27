@@ -12,27 +12,27 @@
         <div class="bg-white rounded-3xl shadow-2xl overflow-hidden">
             <div class="bg-gradient-to-r from-indigo-700 to-purple-700 text-white p-8">
                 <h1 class="text-3xl font-bold">工作網站快速開啟器</h1>
-                <p class="mt-2">線上版 • 請耐心等待開啟</p>
+                <p class="mt-2">線上版 • 推薦使用「複製網址」功能</p>
             </div>
 
-            <div class="p-6 border-b bg-gray-50 flex items-center justify-between">
-                <label class="flex items-center gap-3 cursor-pointer">
-                    <input type="checkbox" id="selectAll" onchange="toggleSelectAll()" class="w-5 h-5 accent-indigo-600">
-                    <span class="font-bold">全選</span>
-                </label>
+            <div class="p-6 bg-gray-50 border-b flex gap-3">
+                <button onclick="copySelected()" 
+                        class="flex-1 py-4 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-2xl text-lg">
+                    📋 複製已選網址（最穩定）
+                </button>
                 <button onclick="openSelected()" 
-                        class="px-8 py-3 bg-green-600 hover:bg-green-700 text-white font-bold rounded-2xl">
-                    🚀 直接開啟已選網站
+                        class="flex-1 py-4 bg-green-600 hover:bg-green-700 text-white font-bold rounded-2xl text-lg">
+                    🚀 直接開啟
                 </button>
             </div>
 
-            <div id="siteList" class="divide-y"></div>
+            <div id="siteList" class="divide-y max-h-[75vh] overflow-auto"></div>
         </div>
     </div>
 
     <script>
         const sites = [
-            // ==================== NPG- ====================
+            // NPG-
             { group: "NPG-", name: "BBRBET (巴西)", url: "https://n0kjob.npgaaa.com/app-user-list#CC=eyJDT1VOVFJZIjoiQlIifQ==", country: "🇧🇷" },
             { group: "NPG-", name: "BBRBET 西語系", url: "https://n0kjob.api4sale.com/", country: "🇲🇽🇨🇴🇵🇪🇦🇷🇨🇱" },
             { group: "NPG-", name: "Bralucky", url: "https://izm2xz.npgaaa.com/worker-board#CC=eyJDT1VOVFJZIjoiQlIifQ==", country: "🇧🇷" },
@@ -66,7 +66,7 @@
             { group: "NPG-", name: "Lamansionvip777", url: "https://moihuf.npgaaa.com/", country: "🇲🇽" },
             { group: "NPG-", name: "Deulucky", url: "https://i6qaby.npgaaa.com/", country: "🇧🇷" },
 
-            // ==================== B9-PANDA ====================
+            // B9-PANDA
             { group: "B9-PANDA", name: "SuperStar792", url: "https://admin4-792-077267.m-9-y-j.com/#/systemManage/subAccount", country: "🇧🇷" },
             { group: "B9-PANDA", name: "Supergame2368", url: "https://admin-2368-4b5c6c.m-b-d-1.com/#/systemManage/subAccount", country: "🇧🇷" },
             { group: "B9-PANDA", name: "Panda893", url: "https://admin4-893-226e3a.m-9-y-j.com/#/systemManage/role", country: "🇧🇷" },
@@ -76,13 +76,13 @@
             { group: "B9-PANDA", name: "Supernova-2291", url: "https://admin-2291-cdb55f.j-d-0-q.com/#/systemManage/subAccount", country: "🇧🇷" },
             { group: "B9-PANDA", name: "Supergoal-2487", url: "https://admin-2487-13223e.m-9-y-j.com/#/reportQuery/allReport", country: "🇧🇷" },
 
-            // ==================== 天成 ====================
+            // 天成
             { group: "天成", name: "天成1 (orojugar)", url: "https://tac3.connect7bo.com/", country: "🇲🇽" },
             { group: "天成", name: "天成2", url: "https://684990039.com/", country: "🇲🇽" },
             { group: "天成", name: "天成3", url: "https://www.237828333.com/index", country: "🇲🇽" },
             { group: "天成", name: "天成 cashwin", url: "https://www.237828333.com/", country: "🇨🇱" },
 
-            // ==================== JK澎拜 ====================
+            // JK澎拜
             { group: "JK澎拜", name: "Supersucesso", url: "https://brr7.topcms.org/#/dashboard", country: "🇧🇷" },
             { group: "JK澎拜", name: "Supergold-M57", url: "http://m57.dggamecms.com/", country: "🇧🇷" }
         ];
@@ -103,20 +103,22 @@
 
         function openSelected() {
             const checked = Array.from(document.querySelectorAll('.site-check:checked'));
-            if (checked.length === 0) return alert('請勾選網站！');
-
-            alert(`正在開啟 ${checked.length} 個網站，請耐心等待...`);
-
-            checked.forEach((item, index) => {
-                setTimeout(() => {
-                    window.open(item.dataset.url, '_blank');
-                }, index * 500);   // 500ms 延遲，較穩定
+            if (checked.length === 0) return alert('請勾選網站');
+            
+            alert(`正在開啟 ${checked.length} 個網站，請稍等...`);
+            checked.forEach((item, i) => {
+                setTimeout(() => window.open(item.dataset.url, '_blank'), i * 550);
             });
         }
 
-        function toggleSelectAll() {
-            const checked = document.getElementById('selectAll').checked;
-            document.querySelectorAll('.site-check').forEach(cb => cb.checked = checked);
+        function copySelected() {
+            const checked = Array.from(document.querySelectorAll('.site-check:checked'));
+            if (checked.length === 0) return alert('請勾選網站');
+            
+            const text = checked.map(item => item.dataset.url).join('\n');
+            navigator.clipboard.writeText(text).then(() => {
+                alert(`✅ 已複製 ${checked.length} 個網址！\n\n請貼上到記事本後全選右鍵「在新分頁開啟全部」`);
+            });
         }
 
         window.onload = renderSites;
