@@ -3,84 +3,123 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>直接開啟版</title>
+    <title>工作網站快速開啟器</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
 </head>
-<body class="bg-gray-50 p-6">
-    <div class="max-w-4xl mx-auto bg-white rounded-3xl shadow-xl overflow-hidden">
-        <div class="bg-gradient-to-r from-red-600 to-indigo-600 text-white p-8">
-            <h1 class="text-3xl font-bold">直接開啟模式</h1>
-            <p class="mt-1">已將延遲壓到最低</p>
-        </div>
+<body class="bg-gray-50 min-h-screen">
+    <div class="max-w-4xl mx-auto p-6">
+        <div class="bg-white rounded-3xl shadow-2xl overflow-hidden">
+            <div class="bg-gradient-to-r from-indigo-700 to-purple-700 text-white p-8">
+                <h1 class="text-3xl font-bold">工作網站快速開啟器</h1>
+                <p class="mt-2">線上版 • 請耐心等待開啟</p>
+            </div>
 
-        <div class="p-6">
-            <button onclick="openAllSelected()" 
-                    class="w-full py-4 bg-green-600 hover:bg-green-700 text-white text-xl font-bold rounded-2xl mb-6">
-                🚀 直接開啟所有已勾選網站
-            </button>
+            <div class="p-6 border-b bg-gray-50 flex items-center justify-between">
+                <label class="flex items-center gap-3 cursor-pointer">
+                    <input type="checkbox" id="selectAll" onchange="toggleSelectAll()" class="w-5 h-5 accent-indigo-600">
+                    <span class="font-bold">全選</span>
+                </label>
+                <button onclick="openSelected()" 
+                        class="px-8 py-3 bg-green-600 hover:bg-green-700 text-white font-bold rounded-2xl">
+                    🚀 直接開啟已選網站
+                </button>
+            </div>
 
-            <div id="siteList"></div>
+            <div id="siteList" class="divide-y"></div>
         </div>
     </div>
 
     <script>
-        const sites = [ /* 所有網站 */ 
-            // NPG-
-            {g:"NPG-", n:"BBRBET (巴西)", u:"https://n0kjob.npgaaa.com/app-user-list#CC=eyJDT1VOVFJZIjoiQlIifQ=="},
-            {g:"NPG-", n:"BBRBET 西語系", u:"https://n0kjob.api4sale.com/"},
-            {g:"NPG-", n:"Bralucky", u:"https://izm2xz.npgaaa.com/worker-board#CC=eyJDT1VOVFJZIjoiQlIifQ=="},
-            {g:"NPG-", n:"jogoman", u:"https://e7lr4j.api4sale.com/login"},
-            {g:"NPG-", n:"Joycasino", u:"https://lc9z4l.api4sale.com/"},
-            {g:"NPG-", n:"BBRIFA", u:"https://c2-bjaezv.npgqwe.com/"},
-            {g:"NPG-", n:"Lunabet", u:"https://c2-osbg1w.npgqwe.com/second-audit-config#CC=eyJDT1VOVFJZIjoiQlIifQ=="},
-            {g:"NPG-", n:"Kingbar", u:"https://v5gb97.npgaaa.com/worker-board#CC=eyJDT1VOVFJZIjoiTVgifQ=="},
-            {g:"NPG-", n:"Meexbet", u:"https://kc698b.npgaaa.com/"},
-            {g:"NPG-", n:"Betfarms", u:"https://v6sx2i.npgaaa.com/"},
-            {g:"NPG-", n:"Bbrwin", u:"https://pg24hj.whalesass01.online/"},
-            {g:"NPG-", n:"gldnbet", u:"https://ffyrwz.npgaaa.com/login"},
-            {g:"NPG-", n:"Bravowins", u:"https://rlclnk.npgaaa.com/login"},
-            {g:"NPG-", n:"Deulucky", u:"https://i6qaby.npgaaa.com/"},
-            // B9-PANDA
-            {g:"B9-PANDA", n:"SuperStar792", u:"https://admin4-792-077267.m-9-y-j.com/#/systemManage/subAccount"},
-            {g:"B9-PANDA", n:"Supergame2368", u:"https://admin-2368-4b5c6c.m-b-d-1.com/#/systemManage/subAccount"},
-            {g:"B9-PANDA", n:"Panda893", u:"https://admin4-893-226e3a.m-9-y-j.com/#/systemManage/role"},
-            {g:"B9-PANDA", n:"Cashmaster2360", u:"https://admin-2360-e2f898.m-b-d-1.com/"},
-            {g:"B9-PANDA", n:"SuperVIP-2433", u:"https://admin-2433-d62f80.m-9-y-j.com/#/systemManage/subAccount"},
-            // 天成 & JK澎拜
-            {g:"天成", n:"天成1", u:"https://tac3.connect7bo.com/"},
-            {g:"天成", n:"天成2", u:"https://684990039.com/"},
-            {g:"JK澎拜", n:"Supersucesso", u:"https://brr7.topcms.org/#/dashboard"},
-            {g:"JK澎拜", n:"Supergold-M57", u:"http://m57.dggamecms.com/"}
-            // 你可以自己把其他網站補齊
+        const sites = [
+            // ==================== NPG- ====================
+            { group: "NPG-", name: "BBRBET (巴西)", url: "https://n0kjob.npgaaa.com/app-user-list#CC=eyJDT1VOVFJZIjoiQlIifQ==", country: "🇧🇷" },
+            { group: "NPG-", name: "BBRBET 西語系", url: "https://n0kjob.api4sale.com/", country: "🇲🇽🇨🇴🇵🇪🇦🇷🇨🇱" },
+            { group: "NPG-", name: "Bralucky", url: "https://izm2xz.npgaaa.com/worker-board#CC=eyJDT1VOVFJZIjoiQlIifQ==", country: "🇧🇷" },
+            { group: "NPG-", name: "jogoman", url: "https://e7lr4j.api4sale.com/login", country: "🇧🇷" },
+            { group: "NPG-", name: "Joycasino", url: "https://lc9z4l.api4sale.com/", country: "🇧🇷" },
+            { group: "NPG-", name: "BBRIFA", url: "https://c2-bjaezv.npgqwe.com/", country: "🇧🇷" },
+            { group: "NPG-", name: "Lunabet", url: "https://c2-osbg1w.npgqwe.com/second-audit-config#CC=eyJDT1VOVFJZIjoiQlIifQ==", country: "🇧🇷" },
+            { group: "NPG-", name: "Kingbar", url: "https://v5gb97.npgaaa.com/worker-board#CC=eyJDT1VOVFJZIjoiTVgifQ==", country: "🇧🇷🇲🇽🇨🇴🇨🇱🇵🇪" },
+            { group: "NPG-", name: "Meexbet", url: "https://kc698b.npgaaa.com/", country: "🇲🇽🇨🇴🇵🇪🇨🇱" },
+            { group: "NPG-", name: "Betfarms", url: "https://v6sx2i.npgaaa.com/", country: "🇧🇷🇮🇳🇲🇽🇵🇪" },
+            { group: "NPG-", name: "Bbrwin", url: "https://pg24hj.whalesass01.online/", country: "🇧🇷" },
+            { group: "NPG-", name: "gldnbet", url: "https://ffyrwz.npgaaa.com/login", country: "🇲🇽🇵🇪🇨🇱" },
+            { group: "NPG-", name: "Bravowins", url: "https://rlclnk.npgaaa.com/login", country: "🇨🇱" },
+            { group: "NPG-", name: "Millonix_MX", url: "https://pg24hj.whalesass01.online/", country: "🇲🇽" },
+            { group: "NPG-", name: "millonixvip", url: "https://c2-ixiaqf.npgqwe.com/", country: "🇨🇱🇲🇽🇵🇪" },
+            { group: "NPG-", name: "nayafacil", url: "https://c2-uwjhah.npgqwe.com/login", country: "🇨🇱" },
+            { group: "NPG-", name: "MEXI777", url: "https://lmtbox.npgaaa.com/", country: "🇲🇽" },
+            { group: "NPG-", name: "Forturola", url: "https://ptndwj.npgaaa.com/sys/account-list#CC=eyJDT1VOVFJZIjoiTVgifQ==", country: "🇲🇽🇨🇴🇨🇱🇵🇪🇱🇷" },
+            { group: "NPG-", name: "BBRWIN MX", url: "https://nuxi0i.npgaaa.com/login#CC=eyJDT1VOVFJZIjoiTVgifQ==", country: "🇲🇽" },
+            { group: "NPG-", name: "Winmax-CL", url: "https://n2wudb.npgaaa.com/", country: "🇨🇱" },
+            { group: "NPG-", name: "Winmax-PE", url: "https://7mjjle.npgaaa.com/", country: "🇵🇪" },
+            { group: "NPG-", name: "Ruletix-MX", url: "https://c2-f4ihsd.npgqwe.com/", country: "🇲🇽" },
+            { group: "NPG-", name: "Ruletix-US", url: "https://idmxfx.fpljsoft.com/", country: "🇱🇷" },
+            { group: "NPG-", name: "Ruletix 智利", url: "https://c2-zaaezr.npgqwe.com/", country: "🇨🇱" },
+            { group: "NPG-", name: "Ruletix 祕魯", url: "https://c2-terv4z.npgqwe.com/sys/", country: "🇵🇪" },
+            { group: "NPG-", name: "Ruletix_co", url: "https://c2-wp0ul3.npgqwe.com/", country: "🇨🇴" },
+            { group: "NPG-", name: "Ruletix01", url: "https://ydkx8n.npgaaa.com/", country: "🇲🇽" },
+            { group: "NPG-", name: "Ruletix777", url: "https://l08ar7.npgaaa.com/", country: "🇲🇽" },
+            { group: "NPG-", name: "Ruletix_ES", url: "https://pczkku.npgaaa.com/", country: "🇪🇸" },
+            { group: "NPG-", name: "Lamansionvip_Mx", url: "https://c2-e3cqni.npgqwe.com/", country: "🇲🇽" },
+            { group: "NPG-", name: "Lamansionvip777", url: "https://moihuf.npgaaa.com/", country: "🇲🇽" },
+            { group: "NPG-", name: "Deulucky", url: "https://i6qaby.npgaaa.com/", country: "🇧🇷" },
+
+            // ==================== B9-PANDA ====================
+            { group: "B9-PANDA", name: "SuperStar792", url: "https://admin4-792-077267.m-9-y-j.com/#/systemManage/subAccount", country: "🇧🇷" },
+            { group: "B9-PANDA", name: "Supergame2368", url: "https://admin-2368-4b5c6c.m-b-d-1.com/#/systemManage/subAccount", country: "🇧🇷" },
+            { group: "B9-PANDA", name: "Panda893", url: "https://admin4-893-226e3a.m-9-y-j.com/#/systemManage/role", country: "🇧🇷" },
+            { group: "B9-PANDA", name: "Cashmaster2360", url: "https://admin-2360-e2f898.m-b-d-1.com/", country: "🇧🇷" },
+            { group: "B9-PANDA", name: "SuperVIP-2433", url: "https://admin-2433-d62f80.m-9-y-j.com/#/systemManage/subAccount", country: "🇧🇷" },
+            { group: "B9-PANDA", name: "Superpower-2457", url: "https://admin-2457-40062e.m-9-y-j.com/#/systemManage/subAccount", country: "🇧🇷" },
+            { group: "B9-PANDA", name: "Supernova-2291", url: "https://admin-2291-cdb55f.j-d-0-q.com/#/systemManage/subAccount", country: "🇧🇷" },
+            { group: "B9-PANDA", name: "Supergoal-2487", url: "https://admin-2487-13223e.m-9-y-j.com/#/reportQuery/allReport", country: "🇧🇷" },
+
+            // ==================== 天成 ====================
+            { group: "天成", name: "天成1 (orojugar)", url: "https://tac3.connect7bo.com/", country: "🇲🇽" },
+            { group: "天成", name: "天成2", url: "https://684990039.com/", country: "🇲🇽" },
+            { group: "天成", name: "天成3", url: "https://www.237828333.com/index", country: "🇲🇽" },
+            { group: "天成", name: "天成 cashwin", url: "https://www.237828333.com/", country: "🇨🇱" },
+
+            // ==================== JK澎拜 ====================
+            { group: "JK澎拜", name: "Supersucesso", url: "https://brr7.topcms.org/#/dashboard", country: "🇧🇷" },
+            { group: "JK澎拜", name: "Supergold-M57", url: "http://m57.dggamecms.com/", country: "🇧🇷" }
         ];
 
-        let selectedCount = 0;
-
-        function render() {
-            const div = document.getElementById('siteList');
-            div.innerHTML = sites.map(site => `
-                <div class="flex items-center gap-3 p-4 border-b">
-                    <input type="checkbox" class="chk w-5 h-5" data-url="${site.u}">
-                    <div>
-                        <div class="font-medium">${site.n}</div>
-                        <div class="text-xs text-gray-500">${site.g}</div>
+        function renderSites() {
+            const container = document.getElementById('siteList');
+            container.innerHTML = sites.map(site => `
+                <div class="flex items-center gap-4 p-5 border-b hover:bg-gray-50">
+                    <input type="checkbox" class="site-check w-5 h-5 accent-indigo-600" data-url="${site.url}">
+                    <div class="flex-1">
+                        <div class="font-semibold">${site.name}</div>
+                        <div class="text-sm text-gray-500">${site.group}</div>
                     </div>
+                    <span class="text-3xl">${site.country}</span>
                 </div>
             `).join('');
         }
 
-        function openAllSelected() {
-            const checked = document.querySelectorAll('.chk:checked');
-            if (checked.length === 0) return alert('請勾選網站');
+        function openSelected() {
+            const checked = Array.from(document.querySelectorAll('.site-check:checked'));
+            if (checked.length === 0) return alert('請勾選網站！');
 
-            checked.forEach((item, i) => {
+            alert(`正在開啟 ${checked.length} 個網站，請耐心等待...`);
+
+            checked.forEach((item, index) => {
                 setTimeout(() => {
                     window.open(item.dataset.url, '_blank');
-                }, i * 80);   // 最短延遲
+                }, index * 500);   // 500ms 延遲，較穩定
             });
         }
 
-        window.onload = render;
+        function toggleSelectAll() {
+            const checked = document.getElementById('selectAll').checked;
+            document.querySelectorAll('.site-check').forEach(cb => cb.checked = checked);
+        }
+
+        window.onload = renderSites;
     </script>
 </body>
 </html>
